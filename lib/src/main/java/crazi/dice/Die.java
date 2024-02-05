@@ -1,24 +1,33 @@
 package crazi.dice;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 public class Die {
 
-    protected final List<DieSide> sides;
-    protected DieSide currentSide;
+    private final List<DieSide> sides;
+    private DieSide currentSide;
+    private final boolean isFair;
 
-    public Die(DieBuilder builder){
+    public Die(DieBuilder builder, boolean isFair){
         this.sides = builder.sides;
+        this.isFair = isFair;
     }
 
-    public Die() {
+    public Die(boolean isFair) {
+        this.isFair = isFair;
         this.sides = null;
     }
 
-    protected void roll(Random random){
-        double totalWeight = sides.stream().mapToDouble(x -> x.weight).sum();
+    protected void roll(Random random) {
+        double totalWeight;
+        if (isFair) {
+            totalWeight = sides.size();
+        } else {
+            totalWeight = sides.stream().mapToDouble(x -> x.weight).sum();
+        }
         double randomValue = random.nextDouble() * totalWeight;
         double currentWeight = 0;
         for (DieSide side : sides) {
@@ -62,7 +71,7 @@ public class Die {
     }
 
     public static class DieBuilder{
-        protected List<DieSide> sides;
+        protected List<DieSide> sides = new ArrayList<>();
         private final boolean isFair;
 
         public DieBuilder(boolean isFair){
@@ -82,7 +91,7 @@ public class Die {
                 throw new Exception("DieBuilder: Weight of side < 0");
             }
             sides.sort(Comparator.comparingInt(s -> s.val));
-            return new Die(this);
+            return new Die(this, isFair);
         }
     }
 }
