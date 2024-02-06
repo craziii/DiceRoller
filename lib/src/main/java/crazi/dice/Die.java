@@ -39,6 +39,14 @@ public class Die {
         }
     }
 
+    protected List<Integer> roll(List<Die> dice, Random random){
+        List<Integer> output = new ArrayList<>();
+        for(Die die : dice){
+            output.add(die.rollAndReturnVal(random));
+        }
+        return output;
+    }
+
     protected int rollAndReturnVal(Random random){
         roll(random);
         return getCurrentValue();
