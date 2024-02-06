@@ -1,4 +1,4 @@
-package crazi.dice;
+package com.crazi.dice;
 
 public class CommonDie {
 

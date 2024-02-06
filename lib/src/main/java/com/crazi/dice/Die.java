@@ -1,4 +1,4 @@
-package crazi.dice;
+package com.crazi.dice;
 
 import java.util.ArrayList;
 import java.util.Comparator;
